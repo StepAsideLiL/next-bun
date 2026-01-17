@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import readFile from "@/lib/actions/read-file";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
@@ -18,7 +17,9 @@ export default function ReadFile({ className }: { className?: string }) {
           disabled={loading}
           onClick={async () => {
             setLoading(true);
-            const text = await readFile();
+            const text = await fetch("/api/read-file").then((res) =>
+              res.json(),
+            );
             if (!text.error) {
               setText(text.data || "");
               setLoading(false);
